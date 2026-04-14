@@ -1,0 +1,24 @@
+[project]
+name = "ucp-example-server"
+version = "1.0.0"
+description = "UCP Demo Server"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "httpx",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+    "pytest",
+    "pytest-asyncio",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]

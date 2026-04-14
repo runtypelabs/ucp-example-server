@@ -1,0 +1,21 @@
+name = "ucp-demo-server"
+main = "src/entry.py"
+compatibility_date = "2025-04-10"
+compatibility_flags = ["python_workers"]
+
+# Prefer: export CLOUDFLARE_ACCOUNT_ID="..."
+# Or set account_id here.
+# account_id = "your-cloudflare-account-id"
+
+# Optional:
+# Install MCP from runtype.com and ask your assistant to:
+# "Build me an agent with all the UCP tools, a chat surface, and return a client token I can use use on my site"
+# [vars]
+# RUNTYPE_CLIENT_TOKEN = "..."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ucp-flower-shop"
+# Replace with the id from: npx wrangler d1 create ucp-flower-shop
+database_id = "ffffffff-ffff-ffff-ffff-ffffffffffff"
+migrations_dir = "migrations"
