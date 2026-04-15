@@ -9,3 +9,4 @@ node_modules
 python_modules
 *.sqlite
 *.sqlite-*
+.dev.vars

@@ -143,12 +143,31 @@ HOME_HTML = """<!DOCTYPE html>
     color: var(--fg);
   }
   pre {
+    position: relative;
     background: var(--code-bg);
     border-radius: var(--radius);
     padding: 1rem 1.25rem;
     overflow-x: auto;
     margin: 0.75rem 0;
   }
+  .copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    color: var(--code-fg);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s;
+  }
+  pre:hover .copy-btn { opacity: 1; }
+  .copy-btn:hover { background: rgba(255,255,255,0.15); }
+  .copy-btn.copied { color: #6EE7B7; }
   pre code {
     background: none;
     padding: 0;
@@ -1101,8 +1120,31 @@ async function tryDiscount(btn) {
   } catch(e) { code.textContent = 'Error: ' + e.message; }
 }
 
+// --- Copy buttons ---
+function copyCode(btn) {
+  var code = btn.parentElement.querySelector('code');
+  if (!code) return;
+  navigator.clipboard.writeText(code.textContent).then(function() {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function injectCopyButtons() {
+  document.querySelectorAll('.step-content > pre').forEach(function(pre) {
+    if (pre.querySelector('.copy-btn')) return;
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.onclick = function() { copyCode(btn); };
+    pre.appendChild(btn);
+  });
+}
+
 // Initialize on page load
 updateCurlExamples();
+injectCopyButtons();
 searchCatalog();
 </script>
 
