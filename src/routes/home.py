@@ -7,8 +7,8 @@ router = APIRouter()
 
 WIDGET_SNIPPET = """<!-- Runtype Persona Chat Widget -->
 <script
-  src="https://cdn.jsdelivr.net/npm/@runtypelabs/persona@3.12.0/dist/install.global.js"
-  data-config='{"version":"3.12.0","config":{"apiUrl":"https://api.runtype.com","clientToken":"__RUNTYPE_TOKEN__","parserType":"json","theme":{"palette":{"colors":{"primary":{"500":"#0F766E","600":"#0D6D64"},"gray":{"50":"#FAFAF9","100":"#F5F5F4","200":"#E7E5E4","500":"#78716C","900":"#1C1917"}},"typography":{"fontFamily":{"sans":"Manrope, system-ui, sans-serif"}},"radius":{"md":"6px","lg":"8px"}},"components":{"header":{"background":"#0F766E","titleForeground":"#FFFFFF","subtitleForeground":"rgba(255,255,255,0.8)","actionIconForeground":"rgba(255,255,255,0.9)","iconBackground":"rgba(255,255,255,0.15)","iconForeground":"#FFFFFF"}}},"launcher":{"enabled":true,"title":"UCP Shopping Agent","subtitle":"Buy flowers with AI over UCP","position":"bottom-right"},"features":{"showReasoning":true,"showToolCalls":true,"scrollToBottom":{"enabled":true,"iconName":"arrow-down","label":""},"toolCallDisplay":{"collapsedMode":"tool-name","activePreview":false,"grouped":true,"previewMaxLines":2,"expandable":true,"loadingAnimation":"shimmer"},"reasoningDisplay":{"activePreview":true,"previewMaxLines":3,"expandable":true}},"toolCall":{"activeTextTemplate":"Calling {toolName}... ~{duration}~","completeTextTemplate":"Finished {toolName} ~{duration}~"}}}'
+  src="https://cdn.jsdelivr.net/npm/@runtypelabs/persona@latest/dist/install.global.js"
+  data-config='{"version":"latest","windowKey":"ucpAgent","config":{"apiUrl":"https://api.runtype.com","clientToken":"__RUNTYPE_TOKEN__","parserType":"json","theme":{"palette":{"colors":{"primary":{"500":"#0F766E","600":"#0D6D64"},"gray":{"50":"#FAFAF9","100":"#F5F5F4","200":"#E7E5E4","500":"#78716C","900":"#1C1917"}},"typography":{"fontFamily":{"sans":"Manrope, system-ui, sans-serif"}},"radius":{"md":"6px","lg":"8px"}},"components":{"header":{"background":"#0F766E","titleForeground":"#FFFFFF","subtitleForeground":"rgba(255,255,255,0.8)","actionIconForeground":"rgba(255,255,255,0.9)","iconBackground":"rgba(255,255,255,0.15)","iconForeground":"#FFFFFF"}}},"launcher":{"enabled":true,"title":"UCP Shopping Agent","subtitle":"Buy flowers with AI over UCP","position":"bottom-right"},"features":{"showReasoning":true,"showToolCalls":true,"scrollToBottom":{"enabled":true,"iconName":"arrow-down","label":""},"toolCallDisplay":{"collapsedMode":"tool-name","activePreview":false,"grouped":true,"previewMaxLines":2,"expandable":true,"loadingAnimation":"shimmer"},"reasoningDisplay":{"activePreview":true,"previewMaxLines":3,"expandable":true}},"toolCall":{"activeTextTemplate":"Calling {toolName}... ~{duration}~","completeTextTemplate":"Finished {toolName} ~{duration}~"}}}'
 ></script>"""
 
 HOME_HTML = """<!DOCTYPE html>
@@ -504,10 +504,10 @@ HOME_HTML = """<!DOCTYPE html>
   <p>Open the chat widget in the bottom-right to browse products, add to cart, and complete
   a purchase &mdash; every UCP API call is visible as a tool invocation.</p>
   <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin:0.75rem 0">
-    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);user-select:all">&ldquo;What flowers do you have?&rdquo;</span>
-    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);user-select:all">&ldquo;I'd like a dozen red roses&rdquo;</span>
-    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);user-select:all">&ldquo;Ship to Portland, OR 97201&rdquo;</span>
-    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);user-select:all">&ldquo;Complete my order&rdquo;</span>
+    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent('What flowers do you have?')">&ldquo;What flowers do you have?&rdquo;</span>
+    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent(&quot;I'd like a dozen red roses&quot;)">&ldquo;I'd like a dozen red roses&rdquo;</span>
+    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent('Ship to Portland, OR 97201')">&ldquo;Ship to Portland, OR 97201&rdquo;</span>
+    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent('Complete my order')">&ldquo;Complete my order&rdquo;</span>
   </div>
 
   <h2>Catalog</h2>
@@ -705,6 +705,11 @@ const UCP_HEADERS = {
   'Signature': 'sig=:test:',
   'Request-Id': 'homepage-' + Date.now(),
 };
+
+function sendToAgent(text) {
+  if (!window.ucpAgent) return;
+  window.ucpAgent.submitMessage(text);
+}
 
 document.querySelectorAll('code').forEach(el => {
   el.innerHTML = el.innerHTML.replace(/{{BASE}}/g, BASE);
