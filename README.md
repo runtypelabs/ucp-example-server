@@ -6,7 +6,7 @@ on Cloudflare**, using **FastAPI** and **Cloudflare D1** (serverless SQLite).
 Implements the UCP **v2026-04-08** specification including the new Catalog Search
 and Catalog Lookup capabilities for product discovery.
 
-**Live demo** (reference deployment): https://ucp-demo-server.runtype.workers.dev
+**Live demo** (reference deployment): https://ucp.runtype.dev
 
 ## Capabilities
 
