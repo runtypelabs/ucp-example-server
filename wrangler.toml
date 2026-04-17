@@ -7,6 +7,9 @@ compatibility_flags = ["python_workers"]
 # Or set account_id here.
 # account_id = "your-cloudflare-account-id"
 
+[triggers]
+crons = ["*/5 * * * *"]
+
 # Optional:
 # Install MCP from runtype.com and ask your assistant to:
 # "Build me an agent with all the UCP tools, a chat surface, and return a client token I can use use on my site"
