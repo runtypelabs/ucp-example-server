@@ -121,8 +121,9 @@ Cloudflare Workers (Pyodide / Python 3.12)
 
 Key design decisions:
 
-- **Lazy app init** — FastAPI app is loaded on first request (not at module level) to stay under the 1000ms startup CPU limit
-- **No `uuid.uuid4()` at module level** — Workers restricts `os.urandom()` outside request context
+- **Eager module-level imports** — FastAPI, routes, and `asgi` are imported at module scope so the Workers runtime captures them in the [deploy-time memory snapshot](https://developers.cloudflare.com/workers/languages/python/how-python-workers-work/#deployment-lifecycle-and-cold-start-optimizations). Cold starts boot from the snapshot and skip import work.
+- **`python_dedicated_snapshot` compatibility flag** — opts into per-Worker dedicated snapshotting (the actual cold-start optimization).
+- **No `uuid.uuid4()` at module level** — Workers restricts `os.urandom()` outside request context, so any randomness must happen inside `on_fetch`.
 
 ## Project Structure
 

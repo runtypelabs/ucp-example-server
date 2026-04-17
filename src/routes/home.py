@@ -94,7 +94,7 @@ HOME_HTML = """<!DOCTYPE html>
   .container { max-width: 760px; margin: 0 auto; padding: 3.5rem 1.5rem 4rem; }
 
   /* Header */
-  header { margin-bottom: 3rem; }
+  .container header { margin-bottom: 3rem; }
   .version-tag {
     font-family: 'Fira Code', monospace;
     font-size: 0.72rem;
@@ -103,7 +103,7 @@ HOME_HTML = """<!DOCTYPE html>
     letter-spacing: 0.02em;
     margin-bottom: 0.5rem;
   }
-  h1 {
+  .container h1 {
     font-size: 1.65rem;
     font-weight: 800;
     letter-spacing: -0.035em;
@@ -120,7 +120,7 @@ HOME_HTML = """<!DOCTYPE html>
   .subtitle a { color: var(--accent); font-weight: 600; }
 
   /* Section headings */
-  h2 {
+  .container h2 {
     font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -129,12 +129,12 @@ HOME_HTML = """<!DOCTYPE html>
     margin: 3.5rem 0 1.25rem;
   }
 
-  p, li { color: var(--muted); font-size: 0.9rem; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  .container p, .container li { color: var(--muted); font-size: 0.9rem; }
+  .container a { color: var(--accent); text-decoration: none; }
+  .container a:hover { text-decoration: underline; }
 
   /* Code */
-  code {
+  .container code {
     font-family: 'Fira Code', 'SF Mono', monospace;
     font-size: 0.8em;
     background: var(--surface-alt);
@@ -142,7 +142,7 @@ HOME_HTML = """<!DOCTYPE html>
     border-radius: 3px;
     color: var(--fg);
   }
-  pre {
+  .container pre {
     position: relative;
     background: var(--code-bg);
     border-radius: var(--radius);
@@ -165,10 +165,10 @@ HOME_HTML = """<!DOCTYPE html>
     opacity: 0;
     transition: opacity 0.15s, background 0.15s;
   }
-  pre:hover .copy-btn { opacity: 1; }
+  .container pre:hover .copy-btn { opacity: 1; }
   .copy-btn:hover { background: rgba(255,255,255,0.15); }
   .copy-btn.copied { color: #6EE7B7; }
-  pre code {
+  .container pre code {
     background: none;
     padding: 0;
     color: var(--code-fg);
@@ -178,8 +178,8 @@ HOME_HTML = """<!DOCTYPE html>
   .string { color: #6EE7B7; }
 
   /* Tables */
-  table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.875rem; }
-  th {
+  .container table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.875rem; }
+  .container th {
     text-align: left;
     padding: 0.5rem 0.75rem 0.5rem 0;
     border-bottom: 1.5px solid var(--fg);
@@ -189,8 +189,8 @@ HOME_HTML = """<!DOCTYPE html>
     letter-spacing: 0.1em;
     color: var(--muted);
   }
-  td { padding: 0.55rem 0.75rem 0.55rem 0; border-bottom: 1px solid var(--border); color: var(--muted); }
-  td code { font-size: 0.8rem; }
+  .container td { padding: 0.55rem 0.75rem 0.55rem 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .container td code { font-size: 0.8rem; }
 
   /* Search */
   .search-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
@@ -437,7 +437,7 @@ HOME_HTML = """<!DOCTYPE html>
   .links a { font-size: 0.875rem; font-weight: 500; }
 
   /* Footer */
-  footer {
+  .container footer {
     margin-top: 4rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
@@ -449,7 +449,7 @@ HOME_HTML = """<!DOCTYPE html>
     justify-content: center;
     gap: 0.3rem;
   }
-  footer a { color: var(--accent); }
+  .container footer a { color: var(--accent); }
 
   /* Runtype logo invert for dark mode */
   @media (prefers-color-scheme: dark) {
@@ -525,7 +525,7 @@ HOME_HTML = """<!DOCTYPE html>
   a purchase &mdash; every UCP API call is visible as a tool invocation.</p>
   <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin:0.75rem 0">
     <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent('What flowers do you have?')">&ldquo;What flowers do you have?&rdquo;</span>
-    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent(&quot;I'd like a dozen red roses&quot;)">&ldquo;I'd like a dozen red roses&rdquo;</span>
+    <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent(&quot;I'd like 3 white orchids&quot;)">&ldquo;I'd like 3 white orchids&rdquo;</span>
     <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent('Ship to Portland, OR 97201')">&ldquo;Ship to Portland, OR 97201&rdquo;</span>
     <span style="font-family:'Fira Code',monospace;font-size:0.75rem;padding:6px 12px;background:var(--accent-subtle);color:var(--accent);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer" onclick="sendToAgent('Complete my order')">&ldquo;Complete my order&rdquo;</span>
   </div>
