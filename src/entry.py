@@ -24,3 +24,8 @@ class Default(WorkerEntrypoint):
     app.state.db = self.env.DB
     app.state.runtype_client_token = getattr(self.env, "RUNTYPE_CLIENT_TOKEN", None)
     return await asgi.fetch(app, request, self.env)
+
+  async def scheduled(self, event):
+    # Cron-triggered warm-up. Touches the D1 binding so the isolate, snapshot,
+    # and DB connection all stay hot for the next real request.
+    await self.env.DB.prepare("SELECT 1").first()
