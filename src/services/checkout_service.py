@@ -512,7 +512,9 @@ class CheckoutService:
       fulfillment=OrderFulfillment(expectations=expectations, events=[]),
     )
 
-    await db.save_order(self.db, order.id, order.model_dump(mode="json"))
+    await db.save_order(
+      self.db, order.id, order.model_dump(mode="json", exclude_none=True),
+    )
     await db.save_checkout(self.db, checkout_id, checkout.status, response_body)
     await db.save_idempotency_record(self.db, idempotency_key, request_hash, 200, response_body)
 
