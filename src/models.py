@@ -449,7 +449,8 @@ class CatalogMessage(BaseModel):
 class CatalogUcp(BaseModel):
   version: str = "2026-04-08"
   capabilities: dict[str, list[dict[str, str]]] = {}
-  status: str | None = None
+  # Per ucp.json#/$defs/base: "success" | "error", defaults to "success".
+  status: str = "success"
 
 
 class CatalogSearchRequest(BaseModel):

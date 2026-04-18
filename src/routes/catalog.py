@@ -187,7 +187,7 @@ async def catalog_search(
       has_next_page=has_next,
       total_count=total,
     ),
-  ).model_dump(mode="json")
+  ).model_dump(mode="json", exclude_none=True)
 
 
 @router.post("/catalog/lookup")
@@ -236,7 +236,7 @@ async def catalog_lookup(
     ucp=_make_ucp("dev.ucp.shopping.catalog.lookup"),
     products=products,
     messages=messages,
-  ).model_dump(mode="json")
+  ).model_dump(mode="json", exclude_none=True)
 
 
 def _resolve_product_detail(product_row, variants_data, options_data, selected, preferences, base_url=""):
@@ -463,7 +463,7 @@ async def catalog_product(
         type="error", code="not_found",
         content=f"Product '{body.id}' was not found",
       )],
-    ).model_dump(mode="json")
+    ).model_dump(mode="json", exclude_none=True)
 
   # Load product options and variants from DB
   options_data = await db.get_product_options(d1, product_id)
@@ -485,4 +485,4 @@ async def catalog_product(
   return CatalogProductResponse(
     ucp=_make_ucp("dev.ucp.shopping.catalog.product"),
     product=product,
-  ).model_dump(mode="json")
+  ).model_dump(mode="json", exclude_none=True)

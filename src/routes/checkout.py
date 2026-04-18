@@ -216,7 +216,11 @@ async def get_order(
 ):
   await validate_ucp_headers(ucp_agent)
   service = _get_service(request)
-  return await service.get_order(order_id)
+  data = await service.get_order(order_id)
+  # Round-trip through Order so any null optional fields in stored data
+  # (from pre-fix writes) are dropped on the way out — order.json types
+  # like image_url/sku/parent_id don't allow null.
+  return Order(**data).model_dump(mode="json", exclude_none=True)
 
 
 @router.put("/orders/{id}")
@@ -230,7 +234,7 @@ async def update_order(
 ):
   await validate_ucp_headers(ucp_agent)
   service = _get_service(request)
-  order_data = order.model_dump(mode="json")
+  order_data = order.model_dump(mode="json", exclude_none=True)
   return await service.update_order(order_id, order_data)
 
 
@@ -260,6 +264,6 @@ async def order_event_webhook(
   signature: str = Header(..., alias="Signature"),
 ):
   service = _get_service(request)
-  payload_dict = payload.model_dump(mode="json")
+  payload_dict = payload.model_dump(mode="json", exclude_none=True)
   await service.update_order(payload.id, payload_dict)
   return {"ucp": {"version": SERVER_VERSION, "status": "success"}}
